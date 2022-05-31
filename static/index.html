@@ -4,11 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/theremini/favicon.ico"
-    />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -17,18 +13,21 @@
     <script>
       // Initialize Firebase
       firebase.initializeApp({
-        apiKey: 'AIzaSyBGZVxBzy52ZPMshtCZehJxYSIzVxtBbeM',
-        authDomain: 'theremini.firebaseapp.com',
-        databaseURL: 'https://theremini-default-rtdb.firebaseio.com/',
-        projectId: 'theremini',
-        storageBucket: 'theremini.appspot.com',
+        apiKey: "AIzaSyBGZVxBzy52ZPMshtCZehJxYSIzVxtBbeM",
+        authDomain: "theremini.firebaseapp.com",
+        databaseURL: "https://theremini-default-rtdb.firebaseio.com/",
+        projectId: "theremini",
+        storageBucket: "theremini.appspot.com",
       });
       // Get a reference to the database service
       var database = firebase.database();
-      var messageRef = database.ref('theremini/note');
-      messageRef.on('value', function (snapshot) {
-        var data = snapshot.val().replaceAll('"', '');
-        socket.emit('ThereminiClient', data);
+      var messageRef = database.ref("theremini");
+      messageRef.on("value", function (snapshot) {
+        const { inst, note, volume } = snapshot.val();
+        const data = [inst, note, volume]
+          .map((e) => e.replaceAll('"', ""))
+          .join("-");
+        socket.emit("ThereminiClient", data);
       });
     </script>
     <title>ThereMINI</title>
