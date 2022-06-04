@@ -38,9 +38,10 @@ void fetchList() {
     if (index == -1) {
       instList[instSize++] = instStr;
       break;
-    } else {
+    }
+    else {
       instList[instSize++] = instStr.substring(0, index);
-      instStr = instStr.substring(index+1);
+      instStr = instStr.substring(index + 1);
     }
   }
   String noteStr = NOTE_STR;
@@ -49,18 +50,19 @@ void fetchList() {
     if (index == -1) {
       noteList[noteSize++] = noteStr;
       break;
-    } else {
+    }
+    else {
       noteList[noteSize++] = noteStr.substring(0, index);
-      noteStr = noteStr.substring(index+1);
+      noteStr = noteStr.substring(index + 1);
     }
   }
   int sOct = 3, eOct = 4;
   for (int i = eOct; i >= sOct; i--) {
     for (int j = 0; j < noteSize; j++) {
-      noteList[(i-sOct)*noteSize+j] = noteList[j] + String(i);
+      noteList[(i - sOct) * noteSize + j] = noteList[j] + String(i);
     }
   }
-  noteSize *= (eOct-sOct+1);
+  noteSize *= (eOct - sOct + 1);
 }
 
 int prevNoteIdx = -1;
@@ -69,7 +71,7 @@ String getNote(int pitch) {
     prevNoteIdx = -1;
     return "";
   }
-  int curNoteIdx = pitch*noteSize/2000;
+  int curNoteIdx = pitch * noteSize / 2000;
   if (curNoteIdx == prevNoteIdx) {
     return noteList[curNoteIdx];
   }
@@ -81,12 +83,12 @@ void setup() {
   fetchList();
   Serial.begin(115200);
   pinMode(POTENTIO_PIN, INPUT);
-  
+
   lcd.init();
   lcd.init();
   lcd.backlight();
   receiver.enableIRIn();
-  
+
   delay(10);
   Serial.println();
   Serial.print("Connecting");
@@ -108,24 +110,22 @@ void loop() {
     receiver.resume();
     if (cmd == 0x15) curInstIdx++;
     if (cmd == 0x07) curInstIdx--;
-    curInstIdx = (curInstIdx+instSize)%instSize;
+    curInstIdx = (curInstIdx + instSize) % instSize;
     curInst = instList[curInstIdx];
   }
-  
+
   int pitch = sonar.ping();
   String inst = curInst;
   String note = getNote(pitch);
-  String volume = String(analogRead(POTENTIO_PIN)/4096.0);
- 
+  String volume = String(analogRead(POTENTIO_PIN) / 4096.0);
+
   lcd.setCursor(0, 0);
   lcd.print(inst + WHITE_SPACE);
   lcd.setCursor(0, 1);
   lcd.print(note + WHITE_SPACE);
   lcd.setCursor(12, 1);
   lcd.print(volume);
-//  lcd.setCursor(10, 1);
-//  lcd.print(String(pitch/10000.0, 4));
-  
+
   if (note != "" && curNote != note) {
     FirebaseJson json;
     json.set("inst", inst);
