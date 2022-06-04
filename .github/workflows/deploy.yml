@@ -20,10 +20,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: cd app
       - run: npm ci
+        working-directory: app
       - run: npm run build --if-present
+        working-directory: app
       - run: npm test
+        working-directory: app
   deploy: ## <-- this is the new stuff
     needs: build
     runs-on: ubuntu-latest
