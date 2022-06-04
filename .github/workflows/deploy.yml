@@ -22,15 +22,16 @@ jobs:
           cache: "npm"
           cache-dependency-path: "app/package-lock.json"
       - run: npm ci
-        working-directory: ./app
+        working-directory: app
       - run: npm run build --if-present
-        working-directory: ./app
+        working-directory: app
       - run: npm test
-        working-directory: ./app
+        working-directory: app
   deploy: ## <-- this is the new stuff
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - run: cd app
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
