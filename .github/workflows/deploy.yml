@@ -8,6 +8,8 @@ on:
     branches: [main]
 jobs:
   build:
+    # Outdated due to Heroku's no free-tier policy
+    if: false
     runs-on: ubuntu-latest
     strategy:
       matrix:
