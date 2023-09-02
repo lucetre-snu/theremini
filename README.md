@@ -10,5 +10,5 @@
 - ~~[theremini.herokuapp.com](http://theremini.herokuapp.com)~~
   - Deployed June, 2022
   - Outdated due to Heroku's no free-tier policy
-- **[theremini.up.railway.app](https://theremini.up.railway.app/)**
+- ~~**[theremini.up.railway.app](https://theremini.up.railway.app/)**~~
   - Deployed September, 2022
